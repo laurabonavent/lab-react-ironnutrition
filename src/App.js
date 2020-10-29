@@ -1,7 +1,7 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import FoodList from './components/FoodList';
+
 
 function App() {
   // const food = {
@@ -11,9 +11,12 @@ function App() {
   //   quantity: '1',
   // };
 
+  
+
   return (
     <div className="App">
       <FoodList />
+    
     </div>
   );
 }
