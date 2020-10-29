@@ -1,20 +1,19 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import FoodBox from './components/FoodBox'
-
+import FoodList from './components/FoodList';
 
 function App() {
-  const food = {
-    image: 'https://i.imgur.com/eTmWoAN.png',
-    name: 'Pizza',
-    calories: '400',
-    quantity: '1',
-  };
+  // const food = {
+  //   image: 'https://i.imgur.com/eTmWoAN.png',
+  //   name: 'Pizza',
+  //   calories: '400',
+  //   quantity: '1',
+  // };
 
   return (
     <div className="App">
-      <FoodBox {...food}/>
+      <FoodList />
     </div>
   );
 }

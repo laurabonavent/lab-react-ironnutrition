@@ -5,10 +5,7 @@ import 'bulma/css/bulma.css';
 
 
 class FoodBox extends React.Component {
-  /*state = {
-    foods : foods
-  }*/
-
+ 
   render() {
     return (
       <div className="box">
