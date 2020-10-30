@@ -1,17 +1,22 @@
 import React from 'react';
 import 'bulma/css/bulma.css';
 
-
-
 class FoodBox extends React.Component {
- 
+  //state pour quantité uniquement car dynamique (input)
+  state = {
+    quantity: 0,
+  };
+  changeQuantity = (event) => {
+    this.setState({ quantity: event.target.value });
+  };
+
   render() {
     return (
       <div className="box">
         <article className="media">
           <div className="media-left">
             <figure className="image is-64x64">
-              <img src={this.props.image} alt={this.props.name}/>
+              <img src={this.props.image} alt={this.props.name} />
             </figure>
           </div>
           <div className="media-content">
@@ -25,7 +30,13 @@ class FoodBox extends React.Component {
           <div className="media-right">
             <div className="field has-addons">
               <div className="control">
-                <input className="input" type="number" value={this.props.quantity} />
+                <input
+                  className="input"
+                  type="number"
+                  //pour récupérer le contenu de l'input et l'envoyer dans le state
+                  value={this.props.children}
+                  onChange={this.changeQuantity}
+                />
               </div>
               <div className="control">
                 <button className="button is-info">+</button>
@@ -37,6 +48,5 @@ class FoodBox extends React.Component {
     );
   }
 }
-
 
 export default FoodBox;
