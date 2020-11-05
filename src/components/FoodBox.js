@@ -6,9 +6,21 @@ class FoodBox extends React.Component {
   state = {
     quantity: 0,
   };
+
   changeQuantity = (event) => {
     this.setState({ quantity: event.target.value });
   };
+
+  //aliment à ajouter sous forme d'objet avec name et cal
+  // addToday = () => {
+  //   let FoodToAdd = {
+  //     name: this.props.name,
+  //     calories: this.props.calories,
+  //     quantity: this.state.quantity,
+  //   };
+  //   console.log(FoodToAdd);
+  //   return FoodToAdd;
+  // };
 
   render() {
     return (
@@ -39,7 +51,15 @@ class FoodBox extends React.Component {
                 />
               </div>
               <div className="control">
-                <button className="button is-info">+</button>
+                <button
+                  onClick={() => {
+                    //faire passer les props et state de Foodbox dans la méthode de FoodList
+                    this.props.addToCart(this.props, this.state);
+                  }}
+                  className="button is-info"
+                >
+                  +
+                </button>
               </div>
             </div>
           </div>

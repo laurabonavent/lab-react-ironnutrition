@@ -8,6 +8,7 @@ class FoodList extends React.Component {
     foods: foods,
     active: false,
     searchContent: '',
+    foodCart: [],
   };
 
   addFoodHandler = (food) => {
@@ -28,21 +29,28 @@ class FoodList extends React.Component {
     });
   };
 
+  //fonction pour récupérer le food clické et le mettre dans le state foodCart
+  addToday = (foodClicked, quantity) => {
+    let newFoodCart = {
+      name: foodClicked.name,
+      quantity: quantity.quantity,
+      calories: foodClicked.calories,
+    };
+    this.setState({ foodCart: [...this.state.foodCart, newFoodCart] });
+  };
+
+  totaCalories = (foodCart) => {};
+
   render() {
+    let foodCart = this.state.foodCart;
+    let calArr = [];
+
     // filtrer search
     let foods = this.state.foods;
     let searchContent = this.state.searchContent;
     if (searchContent) {
       foods = foods.filter((el) => el.name.includes(searchContent));
     }
-    //add food to today's foods
-    //name, cal, image
-      //search index of food selected
-      //print in li of today's foods
-    console.log(this.state.foods[0].name);
-
-    //quantity
-
     return (
       <div>
         {/* Searchbar */}
@@ -59,7 +67,7 @@ class FoodList extends React.Component {
             <ul>
               {foods.map((food, index) => (
                 <li key={index}>
-                  <FoodBox {...food} />
+                  <FoodBox key={index} addToCart={this.addToday} {...food} />
                 </li>
               ))}
             </ul>
@@ -81,8 +89,29 @@ class FoodList extends React.Component {
           </div>
           <div>
             <h1>Today's FoodList</h1>
-            <ul></ul>
-            <p>Total : {} cal</p>
+            {/* renvoyer les propriétés de la FoodBox cliquée, en imprimant le state foodcart mappé */}
+            <ul>
+              {foodCart.map((cartFood) => (
+                <li key={cartFood.name}>
+                  {cartFood.quantity} {cartFood.name} =
+                  {cartFood.calories * cartFood.quantity}
+                  calories
+                </li>
+              ))}
+            </ul>
+
+            <p>
+              Total :
+              {foodCart.map((cartFood) => {
+                let totalCal = cartFood.calories * cartFood.quantity;
+                calArr.push(totalCal);
+                let finalArr = calArr.reduce((acc, val) => acc + val);
+                console.log('finalArr', finalArr);
+
+                return finalArr;
+              })}
+              cal
+            </p>
           </div>
         </div>
       </div>
