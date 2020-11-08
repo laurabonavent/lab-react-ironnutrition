@@ -8,19 +8,9 @@ class FoodBox extends React.Component {
   };
 
   changeQuantity = (event) => {
+    //mettre à jour le state quantity avec la value de l'input
     this.setState({ quantity: event.target.value });
   };
-
-  //aliment à ajouter sous forme d'objet avec name et cal
-  // addToday = () => {
-  //   let FoodToAdd = {
-  //     name: this.props.name,
-  //     calories: this.props.calories,
-  //     quantity: this.state.quantity,
-  //   };
-  //   console.log(FoodToAdd);
-  //   return FoodToAdd;
-  // };
 
   render() {
     return (
@@ -45,6 +35,7 @@ class FoodBox extends React.Component {
                 <input
                   className="input"
                   type="number"
+                  min={0}
                   //pour récupérer le contenu de l'input et l'envoyer dans le state
                   value={this.props.children}
                   onChange={this.changeQuantity}

@@ -2,10 +2,11 @@ import React from 'react';
 import FoodBox from './FoodBox.js';
 import foods from '../foods.json';
 import AddFood from './AddFood';
+import FoodInCart from './FoodInCart';
 
 class FoodList extends React.Component {
   state = {
-    foods: foods,
+    foods: foods, //pour que notre liste de food soit dynamique
     active: false,
     searchContent: '',
     foodCart: [],
@@ -29,7 +30,7 @@ class FoodList extends React.Component {
     });
   };
 
-  //fonction pour récupérer le food clické et le mettre dans le state foodCart
+  //fonction pour récupérer le food clické et le mettre dans le state foodCart (affichage dans le panneau de droite)
   addToday = (foodClicked, quantity) => {
     let newFoodCart = {
       name: foodClicked.name,
@@ -39,11 +40,33 @@ class FoodList extends React.Component {
     this.setState({ foodCart: [...this.state.foodCart, newFoodCart] });
   };
 
-  totaCalories = (foodCart) => {};
+  //fonction pour retirer une ligne du cart au click sur delete
+  handleDelete = (name) => {
+    //copier l'array source
+    let foodCartCopy = [...this.state.foodCart];
+    //chercher l'élément de l'array qui comporte ce nom
+    let foodIndex = foodCartCopy.findIndex((food) => food.name === name);
+    //supprimer cet élément du foodCart
+    foodCartCopy.splice(foodIndex, 1);
+    //changer le state
+    this.setState({ foodCart: foodCartCopy });
+  };
 
   render() {
+    //boucle pour calculer la somme des cal du cart
     let foodCart = this.state.foodCart;
+    console.log(foodCart);
     let calArr = [];
+    let totalCal = 0;
+    let calInCart = 0;
+    for (let i = 0; i < foodCart.length; i++) {
+      totalCal = foodCart[i].calories * foodCart[i].quantity;
+      //ajouter les cal du food dans l'array
+      calArr.push(totalCal);
+      //sommer ce nouvel el avec le 1er (qui est la somme)
+      calInCart = calArr.reduce((acc, val) => acc + val);
+      console.log('calInCart', calInCart);
+    }
 
     // filtrer search
     let foods = this.state.foods;
@@ -80,6 +103,7 @@ class FoodList extends React.Component {
             >
               ADD FOOD
             </button>
+            {/* si le state active est true alors add food et le form apparait */}
             {this.state.active && (
               <AddFood
                 newFood={this.addFoodHandler}
@@ -89,27 +113,22 @@ class FoodList extends React.Component {
           </div>
           <div>
             <h1>Today's FoodList</h1>
-            {/* renvoyer les propriétés de la FoodBox cliquée, en imprimant le state foodcart mappé */}
+            {/* pour Antoine ANOMALIE EN CONSOLE - doublon des apparitions en console mais pas en rendu  */}
+            {/* Renvoyer les propriétés de la FoodBox cliquée, en imprimant le state foodcart mappé */}
             <ul>
               {foodCart.map((cartFood) => (
-                <li key={cartFood.name}>
-                  {cartFood.quantity} {cartFood.name} =
-                  {cartFood.calories * cartFood.quantity}
-                  calories
-                </li>
+                <FoodInCart
+                  key={cartFood.name}
+                  name={cartFood.name}
+                  quantity={cartFood.quantity}
+                  foodToDelete={() => this.handleDelete(cartFood.name)}
+                  calories={cartFood.calories}
+                />
               ))}
             </ul>
 
             <p>
-              Total :
-              {foodCart.map((cartFood) => {
-                let totalCal = cartFood.calories * cartFood.quantity;
-                calArr.push(totalCal);
-                let finalArr = calArr.reduce((acc, val) => acc + val);
-                console.log('finalArr', finalArr);
-
-                return finalArr;
-              })}
+              Total :{calInCart}
               cal
             </p>
           </div>

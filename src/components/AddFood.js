@@ -1,29 +1,28 @@
-import React from "react"; 
+import React from 'react';
 
 const initialState = {
   name: '',
   calories: '',
-  image:''
-}
+  image: '',
+};
 
 class AddFood extends React.Component {
-  state = initialState
+  state = initialState;
 
   handleChange = (event) => {
     let value = event.target.value;
     let name = event.target.name;
-
     this.setState({
-      [name]:value
-    })
-  }
+      [name]: value,
+    });
+  };
 
   handleFormSubmit = (event) => {
-    event.preventDefault()
-    this.props.newFood(this.state)
-    this.props.changeState()
-    this.setState(initialState)
-  }
+    event.preventDefault();
+    this.props.newFood(this.state); //envoi des inputs du form (le new food)
+    this.props.changeState();
+    this.setState(initialState);
+  };
 
   render() {
     return (
@@ -31,20 +30,35 @@ class AddFood extends React.Component {
         <form onSubmit={this.handleFormSubmit}>
           <label>
             Name
-            <input type="text" name="name" value={this.state.name} onChange={this.handleChange}/>
+            <input
+              type="text"
+              name="name"
+              value={this.state.name}
+              onChange={this.handleChange}
+            />
           </label>
           <label>
             Calories
-            <input type="number" name="calories" value={this.state.calories} onChange={this.handleChange}/>
+            <input
+              type="number"
+              name="calories"
+              value={this.state.calories}
+              onChange={this.handleChange}
+            />
           </label>
           <label>
             Image url
-            <input type="text" name="image" value={this.state.image} onChange={this.handleChange}/>
+            <input
+              type="text"
+              name="image"
+              value={this.state.image}
+              onChange={this.handleChange}
+            />
           </label>
-          <button >Submit</button>
+          <button>Submit</button>
         </form>
       </div>
-    )
+    );
   }
 }
 
